@@ -36,7 +36,7 @@ var (
 		"Cache-Control":          "no-cache",
 		"Origin":                 "chrome-extension://jdiccldimpdaibmpdkjnbmckianbfold",
 		"Sec-WebSocket-Protocol": "synthesize",
-		"Sec-WebSocket-Version":  "13",
+		// "Sec-WebSocket-Version":  "13", // don't need
 	}
 	VOICE_HEADERS map[string]string = map[string]string{
 		"Authority": "speech.platform.bing.com",

@@ -152,7 +152,8 @@ func (c *Communicate) openWs() *websocket.Conn {
 			"&ConnectionId="+uuidWithOutDashes()+
 			"&Sec-MS-GEC="+generate_sec_ms_gec()+
 			"&Sec-MS-GEC-Version="+SEC_MS_GEC_VERSION,
-		headers)
+		headers,
+	)
 	if err != nil {
 		log.Fatal("dial:", err)
 	}
