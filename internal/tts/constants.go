@@ -1,4 +1,4 @@
-package edgeTTS
+package tts
 
 const (
 	chromiumFullVersion  = "140.0.3485.14"

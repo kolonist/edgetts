@@ -1,4 +1,4 @@
-package edgeTTS
+package tts
 
 import (
 	"encoding/json"
@@ -17,7 +17,7 @@ type edgeTTS struct {
 	metadataOutCome io.WriteCloser
 }
 
-type Args struct {
+type TTSArgs struct {
 	Text          string
 	Voice         string
 	Rate          string
@@ -26,40 +26,7 @@ type Args struct {
 	WriteMetadata string
 }
 
-func Speak(args Args) error {
-	if err := validateArgs(args); err != nil {
-		return err
-	}
-
-	tts, err := newTTS(args)
-	if err != nil {
-		return err
-	}
-
-	if err := tts.speak(); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func validateArgs(args Args) error {
-	if args.Text == "" {
-		return fmt.Errorf("'Args.Text' should contain text to speak but empty string set")
-	}
-
-	if args.Voice == "" {
-		return fmt.Errorf("'Args.Voice' should contain 'Voice.ShortName' to speak with but empty string set")
-	}
-
-	if args.WriteMedia == "" {
-		return fmt.Errorf("'Args.WriteMedia' should contain mp3 filename speach should be saved to but empty string set")
-	}
-
-	return nil
-}
-
-func newTTS(args Args) (*edgeTTS, error) {
+func NewTTS(args TTSArgs) (*edgeTTS, error) {
 	// create directory for audio file
 	if _, err := os.Stat(args.WriteMedia); os.IsNotExist(err) {
 		err := os.MkdirAll(filepath.Dir(args.WriteMedia), 0755)
@@ -109,7 +76,7 @@ func newTTS(args Args) (*edgeTTS, error) {
 	return eTTS, nil
 }
 
-func (eTTS *edgeTTS) speak() error {
+func (eTTS *edgeTTS) Speak() error {
 	if err := eTTS.communicator.process(eTTS.task); err != nil {
 		return fmt.Errorf("failed to request server: %v", err)
 	}

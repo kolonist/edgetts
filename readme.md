@@ -1,20 +1,19 @@
-# edge-tts-go-v2
+# edgetts
 
-`edge-tts-go-v2` is a golang module that allows you to use Microsoft Edge's online text-to-speech service from within your golang code or using the provided `edge-tts-go-v2` command.
+`edgetts` is a golang module that allows you to use Microsoft Edge's online text-to-speech service from within your golang code or using the provided `edgetts` command.
 
 ## Installation
 
 To install it, run the following command:
 
-    $ go install github.com/kolonist/edge-tts-go-v2
+    $ go install github.com/kolonist/edgetts
 
 ## Usage
 
 ### Basic usage
 
-If you want to use the `edge-tts-go-v2` command, you can simply run it with the following command:
-
-    $ edge-tts-go-v2 --text "Hello, world!" --write-media hello.mp3
+If you want to use the `edgetts` command, you can simply run it with the following command:
+edgetts --text "Hello, world!" --write-media hello.mp3
 
 ### Changing the voice
 
@@ -22,7 +21,7 @@ If you want to change the language of the speech or more generally, the voice.
 
 You must first check the available voices with the `--list-voices` option:
 
-    $ edge-tts-go-v2 --list-voices
+    $ edgetts --list-voices
     Name: Microsoft Server Speech Text to Speech Voice (af-ZA, AdriNeural)
     ShortName: af-ZA-AdriNeural
     Gender: Female
@@ -45,20 +44,20 @@ You must first check the available voices with the `--list-voices` option:
 
     ...
 
-    $ edge-tts-go-v2 --voice zh-CN-XiaoxiaoNeural --text "秦时明月汉时关，万里长征人未还" --write-media hello_in_chinese.mp3
+    $ edgetts --voice zh-CN-XiaoxiaoNeural --text "秦时明月汉时关，万里长征人未还" --write-media hello_in_chinese.mp3
 
 ### Changing rate and volume
 
 It is possible to make minor changes to the generated speech.
 
-    $ edge-tts-go-v2 --rate=-50% --text "Hello, world!" --write-media hello_with_rate_halved.mp3
-    $ edge-tts-go-v2 --volume=-50% --text "Hello, world!" --write-media hello_with_volume_halved.mp3
+    $ edgetts --rate=-50% --text "Hello, world!" --write-media hello_with_rate_halved.mp3
+    $ edgetts --volume=-50% --text "Hello, world!" --write-media hello_with_volume_halved.mp3
 
 ## go module
 
-It is possible to use the `edge-tts-go-v2` module directly from go. For a list of example applications:
+It is possible to use the `edgetts` module directly from go. For a list of example applications:
 
-* https://github.com/kolonist/edge-tts-go-v2/tree/main/examples
+* https://github.com/kolonist/edgetts/tree/main/examples
 
 ## thanks
 

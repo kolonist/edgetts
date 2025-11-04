@@ -1,4 +1,4 @@
-package edgeTTS
+package tts
 
 import (
 	"encoding/json"

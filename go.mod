@@ -1,4 +1,4 @@
-module github.com/kolonist/edge-tts-go-v2
+module github.com/kolonist/edgetts
 
 go 1.25
 

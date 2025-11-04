@@ -2,7 +2,7 @@
 // Currently the only DRM operation is generating the Sec-MS-GEC token value
 // used in all API requests to Microsoft Edge's online text-to-speech service.
 
-package edgeTTS
+package tts
 
 import (
 	"crypto/sha256"

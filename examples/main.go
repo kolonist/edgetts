@@ -3,19 +3,19 @@ package main
 import (
 	"fmt"
 
-	"github.com/kolonist/edge-tts-go-v2/edgeTTS"
+	"github.com/kolonist/edgetts"
 )
 
 func main() {
 	fmt.Println("Trying to get voices list...")
-	voices, err := edgeTTS.ListVoices()
+	voices, err := edgetts.ListVoices()
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 	}
 
-	voice := ""
-
 	fmt.Println("Voices:")
+
+	voice := ""
 	for i, v := range voices {
 		fmt.Printf(
 			"    %d: locale: %s, gender: %s, short name: %s\n",
@@ -29,10 +29,11 @@ func main() {
 			voice = v.ShortName
 		}
 	}
+
 	fmt.Println("")
 
 	filename := "./sample.mp3"
-	text := "edge-tts-go-v2 is a golang module that allows you to use Microsoft Edge's online text-to-speech service from within your golang code or using the provided edge-tts-go-v2 command"
+	text := "edgetts is a golang module that allows you to use Microsoft Edge's online text-to-speech service from within your golang code or using the provided edgetts command"
 	fmt.Printf(
 		"Speak '%s' to audio file '%s' using voice '%s'...\n",
 		text,
@@ -40,7 +41,7 @@ func main() {
 		voice,
 	)
 
-	args := edgeTTS.Args{
+	args := edgetts.Args{
 		Voice:         voice,
 		Text:          text,
 		Rate:          "+25%",
@@ -48,7 +49,7 @@ func main() {
 		WriteMetadata: "./subtitles.json",
 	}
 
-	err = edgeTTS.Speak(args)
+	err = edgetts.Speak(args)
 	if err != nil {
 		fmt.Printf("Error trying to convert text to speach:\n%s\n", err.Error())
 		return
