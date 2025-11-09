@@ -2,20 +2,21 @@ package tts
 
 import (
 	"bytes"
-	"strings"
+	"encoding/hex"
 	"time"
 
 	"github.com/google/uuid"
 )
 
 var (
-	colon     []byte = []byte(":")
-	eol       []byte = []byte("\r\n")
-	doubleEol []byte = []byte("\r\n\r\n")
+	eol        []byte = []byte("\r\n")
+	doubleEol  []byte = []byte("\r\n\r\n")
+	pathHeader []byte = []byte("Path:")
 )
 
 func uuidWithoutDashes() string {
-	return strings.ReplaceAll(uuid.New().String(), "-", "")
+	id := uuid.New()
+	return hex.EncodeToString(id[:])
 }
 
 func mkssml(text string, voice string, rate string, volume string) string {
@@ -34,28 +35,20 @@ func ssmlHeadersPlusData(requestID string, timestamp string, ssml string) string
 }
 
 func getCurrentTime() string {
-	return time.
-		Now().
-		UTC().
-		Format("Mon Jan 02 2006 15:04:05 GMT-0700 (Coordinated Universal Time)")
+	return time.Now().UTC().Format("Mon Jan 02 2006 15:04:05 GMT-0700 (Coordinated Universal Time)")
 }
 
-func getHeadersAndData(data []byte) (map[string]string, []byte) {
-	headers := make(map[string]string)
+func getPathAndData(data []byte) (string, []byte) {
+	var path string
 
 	lines := bytes.SplitSeq(data[:bytes.Index(data, doubleEol)], eol)
 
 	for line := range lines {
-		parts := bytes.SplitN(line, colon, 2)
-		if len(parts) < 2 {
-			continue
+		if bytes.Index(line, pathHeader) == 0 {
+			path = string(bytes.TrimSpace(line[len(pathHeader):]))
+			break
 		}
-
-		key := string(parts[0])
-		value := strings.TrimSpace(string(parts[1]))
-
-		headers[key] = value
 	}
 
-	return headers, data[bytes.Index(data, doubleEol)+4:]
+	return path, data[bytes.Index(data, doubleEol)+4:]
 }

@@ -7,16 +7,16 @@ import (
 )
 
 type Voice struct {
-	Name           string `json:"Name"`
-	ShortName      string `json:"ShortName"`
-	Gender         string `json:"Gender"`
-	Locale         string `json:"Locale"`
-	SuggestedCodec string `json:"SuggestedCodec"`
-	FriendlyName   string `json:"FriendlyName"`
-	Status         string `json:"Status"`
-	Language       string
+	Name           string   `json:"Name"`
+	ShortName      string   `json:"ShortName"`
+	Gender         string   `json:"Gender"`
+	Locale         string   `json:"Locale"`
+	SuggestedCodec string   `json:"SuggestedCodec"`
+	FriendlyName   string   `json:"FriendlyName"`
+	Status         string   `json:"Status"`
 	VoiceTag       VoiceTag `json:"VoiceTag"`
 }
+
 type VoiceTag struct {
 	ContentCategories  []string `json:"ContentCategories"`
 	VoicePersonalities []string `json:"VoicePersonalities"`
@@ -39,6 +39,7 @@ func ListVoices() ([]Voice, error) {
 	for k, v := range baseHeaders {
 		req.Header.Set(k, v)
 	}
+
 	for k, v := range voiceHeaders {
 		req.Header.Set(k, v)
 	}
@@ -49,13 +50,11 @@ func ListVoices() ([]Voice, error) {
 	}
 	defer resp.Body.Close()
 
-	// Read the response body.
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 
-	// Parse the JSON response.
 	var voices []Voice
 	err = json.Unmarshal(body, &voices)
 	if err != nil {

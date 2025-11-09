@@ -33,7 +33,7 @@ func main() {
 	fmt.Println("")
 
 	filename := "./sample.mp3"
-	text := "edgetts is a golang module that allows you to use Microsoft Edge's online text-to-speech service from within your golang code or using the provided edgetts command"
+	text := "edgetts is a golang module that allows you to use Microsoft Edge's online text-to-speech service directly from your golang code"
 	fmt.Printf(
 		"Speak '%s' to audio file '%s' using voice '%s'...\n",
 		text,
@@ -42,18 +42,18 @@ func main() {
 	)
 
 	args := edgetts.Args{
-		Voice:         voice,
-		Text:          text,
-		Rate:          "+25%",
-		WriteMedia:    filename,
-		WriteMetadata: "./subtitles.json",
+		Voice:        voice,
+		Text:         text,
+		Rate:         "+15%",
+		AudioFile:    filename,
+		MetadataFile: "./subtitles.json",
 	}
 
-	err = edgetts.Speak(args)
+	err = edgetts.Transcribe(args)
 	if err != nil {
 		fmt.Printf("Error trying to convert text to speach:\n%s\n", err.Error())
 		return
 	}
 
-	fmt.Printf("Success! Listen spoken text in '%s'\n", filename)
+	fmt.Printf("Success! Listen transcription in '%s'\n", filename)
 }

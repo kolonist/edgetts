@@ -10,13 +10,6 @@ const (
 	voiceListUrl         = "https://" + baseURL + "/voices/list?Ocp-Apim-Subscription-Key=" + trustedClientToken
 )
 
-const (
-	chunkTypeAudio        = "Audio"
-	chunkTypeWordBoundary = "WordBoundary"
-	chunkTypeSessionEnd   = "SessionEnd"
-	chunkTypeEnd          = "ChunkEnd"
-)
-
 var (
 	baseHeaders map[string]string = map[string]string{
 		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" +
