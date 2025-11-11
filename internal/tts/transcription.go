@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 
 	"github.com/gorilla/websocket"
+
+	"github.com/kolonist/edgetts/internal/communication"
 )
 
 type speechParams struct {
@@ -65,8 +67,8 @@ type audioMetadataJSON struct {
 	Metadata []audioMetadata `json:"Metadata"`
 }
 
-func Transcribe(args Args) error {
-	// verify args and get transcription params
+func Speak(args Args) error {
+	// verify args and get TTS params
 	speechParams, err := getSpeechParams(args)
 	if err != nil {
 		return err
@@ -143,22 +145,22 @@ func Transcribe(args Args) error {
 }
 
 func getSpeechParams(args Args) (speechParams, error) {
-	text, err := args.GetText()
+	text, err := args.getText()
 	if err != nil {
 		return speechParams{}, err
 	}
 
-	voice, err := args.GetVoice()
+	voice, err := args.getVoice()
 	if err != nil {
 		return speechParams{}, err
 	}
 
-	rate, err := args.GetRate()
+	rate, err := args.getRate()
 	if err != nil {
 		return speechParams{}, err
 	}
 
-	volume, err := args.GetVolume()
+	volume, err := args.getVolume()
 	if err != nil {
 		return speechParams{}, err
 	}
@@ -174,20 +176,11 @@ func getSpeechParams(args Args) (speechParams, error) {
 func openWebsocket() (*websocket.Conn, error) {
 	headers := http.Header{}
 
-	for k, v := range baseHeaders {
-		headers.Set(k, v)
-	}
-
-	for k, v := range wssHeaders {
-		headers.Set(k, v)
-	}
+	communication.SetHeaders(&headers, wssHeaders)
 
 	dialer := websocket.Dialer{}
 	conn, _, err := dialer.Dial(
-		wssURL+
-			"&ConnectionId="+uuidWithoutDashes()+
-			"&Sec-MS-GEC="+generateSecMSGEC()+
-			"&Sec-MS-GEC-Version="+secMSGECVersion,
+		communication.GenerateSecURL(wssURL)+"&ConnectionId="+uuidWithoutDashes(),
 		headers,
 	)
 	if err != nil {

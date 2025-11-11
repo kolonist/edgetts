@@ -2,7 +2,7 @@
 // Currently the only DRM operation is generating the Sec-MS-GEC token value
 // used in all API requests to Microsoft Edge's online text-to-speech service.
 
-package tts
+package communication
 
 import (
 	"crypto/sha256"
@@ -47,4 +47,11 @@ func generateSecMSGEC() string {
 	// Compute the SHA256 hash and return the uppercased hex digest
 	sum := sha256.Sum256([]byte(str_to_hash))
 	return fmt.Sprintf("%X", sum)
+}
+
+func GenerateSecURL(baseURL string) string {
+	return baseURL +
+		"?Ocp-Apim-Subscription-Key=" + trustedClientToken +
+		"&Sec-MS-GEC=" + generateSecMSGEC() +
+		"&Sec-MS-GEC-Version=" + secMSGECVersion
 }

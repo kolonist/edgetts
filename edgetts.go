@@ -1,15 +1,22 @@
 package edgetts
 
 import (
+	"context"
+
 	"github.com/kolonist/edgetts/internal/tts"
+	"github.com/kolonist/edgetts/internal/voices"
 )
 
-type Args tts.Args
+// Arguments for TTS
+type Args = tts.Args
 
-func Transcribe(args Args) error {
-	return tts.Transcribe(tts.Args(args))
+// Voice description
+type Voice = voices.Voice
+
+func Speak(args Args) error {
+	return tts.Speak(args)
 }
 
-func ListVoices() ([]tts.Voice, error) {
-	return tts.ListVoices()
+func ListVoices(ctx context.Context) ([]Voice, error) {
+	return voices.ListVoices(ctx)
 }

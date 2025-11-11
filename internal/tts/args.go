@@ -6,15 +6,26 @@ import (
 )
 
 type Args struct {
-	Text         string
-	Voice        string
-	Volume       string
-	Rate         string
-	AudioFile    string
+	// Text to speak
+	Text string
+
+	// Voice to speak with
+	Voice string
+
+	// Volume delta, e.g. "+10%" or "-20%"
+	Volume string
+
+	// Rate delta, e.g. "+10%" or "-20%"
+	Rate string
+
+	// Full path to MP3 audio file to save speech
+	AudioFile string
+
+	// Full path to JSON file to save metadata
 	MetadataFile string
 }
 
-func (args *Args) GetText() (string, error) {
+func (args *Args) getText() (string, error) {
 	if args.Text == "" {
 		return "", fmt.Errorf("text not specified")
 	}
@@ -22,7 +33,7 @@ func (args *Args) GetText() (string, error) {
 	return args.Text, nil
 }
 
-func (args *Args) GetVoice() (string, error) {
+func (args *Args) getVoice() (string, error) {
 	if args.Voice == "" {
 		return "", fmt.Errorf("voice not specified")
 	}
@@ -31,7 +42,7 @@ func (args *Args) GetVoice() (string, error) {
 	// "zh-CN-guangxi-YunqiNeural" -> ("zh", "CN-guangxi", "YunqiNeural")
 	match := regexp.MustCompile(`^([a-z]{2,})-([a-zA-Z-]{2,})-([^\-]+Neural)$`).FindStringSubmatch(args.Voice)
 	if match == nil {
-		return "", fmt.Errorf("Voice has wrong format, use 'ListVoices()' and 'ShortName' field go get correct Voice value")
+		return "", fmt.Errorf("voice has wrong format, use 'ListVoices()' and 'ShortName' field go get correct Voice value")
 	}
 
 	lang := match[1]
@@ -45,7 +56,7 @@ func (args *Args) GetVoice() (string, error) {
 	return voice, nil
 }
 
-func (args *Args) GetRate() (string, error) {
+func (args *Args) getRate() (string, error) {
 	// default value
 	if args.Rate == "" {
 		return "+0%", nil
@@ -58,7 +69,7 @@ func (args *Args) GetRate() (string, error) {
 	return args.Rate, nil
 }
 
-func (args *Args) GetVolume() (string, error) {
+func (args *Args) getVolume() (string, error) {
 	// default value
 	if args.Volume == "" {
 		return "+0%", nil

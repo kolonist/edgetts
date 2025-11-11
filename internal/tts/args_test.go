@@ -55,7 +55,7 @@ func Test_getVoice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			voice, err := tt.args.GetVoice()
+			voice, err := tt.args.getVoice()
 			t.Logf("\nvoice: '%v' \nerr: '%v'\n", voice, err)
 
 			gotErr := err != nil

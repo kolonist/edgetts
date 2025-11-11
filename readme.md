@@ -26,7 +26,7 @@ func main() {
 		AudioFile: "./sample.mp3",
 	}
 
-    // read text 'args.Text' with voice 'args.Voice' and save it to 'args.AudioFile' mp3 file
+    // read text 'args.Text' with voice 'args.Voice' and save it to 'args.AudioFile' file
 	err = edgetts.Transcribe(args)
 }
 ```
