@@ -33,13 +33,18 @@ const (
 type responseChunk struct {
 	chunkType responseChunkType
 	data      []byte
-	metadata  speechMetadata
+	metadata  SpeechMetadata
 }
 
-type speechMetadata struct {
-	Offset   int    `json:"offset"`
-	Duration int    `json:"duration"`
-	Text     string `json:"text"`
+type SpeechMetadata struct {
+	// Start time of word in generated sound in milliseconds
+	Offset int `json:"offset"`
+
+	// Duration of word pronunciation in milliseconds
+	Duration int `json:"duration"`
+
+	// Separate word
+	Text string `json:"text"`
 }
 
 type readResponseResult struct {
@@ -103,9 +108,9 @@ func Speak(args Args) error {
 	}
 
 	// collect metadata to this var
-	var metadata []speechMetadata
+	var metadata []SpeechMetadata
 	if needWriteMeta {
-		metadata = make([]speechMetadata, 0, 1024)
+		metadata = make([]SpeechMetadata, 0, 1024)
 	}
 
 	// read response from server
@@ -270,7 +275,7 @@ func readResponse(conn *websocket.Conn, result *readResponseResult) iter.Seq[res
 						case "WordBoundary":
 							chunk := responseChunk{
 								chunkType: chunkTypeWordBoundary,
-								metadata: speechMetadata{
+								metadata: SpeechMetadata{
 									Offset:   metadataDurationToMilliseconds(metadata.Data.Offset),
 									Duration: metadataDurationToMilliseconds(metadata.Data.Duration),
 									Text:     metadata.Data.Text.Text,

@@ -6,9 +6,6 @@ import (
 )
 
 type Args struct {
-	// Text to speak
-	Text string
-
 	// Voice to speak with
 	Voice string
 
@@ -17,12 +14,6 @@ type Args struct {
 
 	// Rate delta, e.g. "+10%" or "-20%"
 	Rate string
-
-	// Full path to MP3 audio file to save speech
-	AudioFile string
-
-	// Full path to JSON file to save metadata
-	MetadataFile string
 }
 
 func (args *Args) getText() (string, error) {
