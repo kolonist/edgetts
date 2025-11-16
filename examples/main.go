@@ -19,14 +19,6 @@ func main() {
 
 	voice := ""
 	for i, v := range voices {
-		// fmt.Printf(
-		// 	"    %d: locale: %s, gender: %s, short name: %s\n",
-		// 	i,
-		// 	v.Locale,
-		// 	v.Gender,
-		// 	v.ShortName,
-		// )
-
 		fmt.Println(i, ":")
 		fmt.Println("Name:", v.Name)
 		fmt.Println("ShortName:", v.ShortName)
@@ -35,19 +27,20 @@ func main() {
 		fmt.Println("SuggestedCodec:", v.SuggestedCodec)
 		fmt.Println("FriendlyName:", v.FriendlyName)
 		fmt.Println("Status:", v.Status)
-		fmt.Println("oiceTag.ContentCategories:", strings.Join(v.VoiceTag.ContentCategories, ", "))
-		fmt.Println("VoiceTag.VoicePersonalities:", strings.Join(v.VoiceTag.VoicePersonalities, ", "))
-		fmt.Println("------------------------------------------------------")
+		fmt.Println("VoiceTag.ContentCategories:", "[", strings.Join(v.VoiceTag.ContentCategories, ", "), "]")
+		fmt.Println("VoiceTag.VoicePersonalities:", "[", strings.Join(v.VoiceTag.VoicePersonalities, ", "), "]")
+		fmt.Println()
 
+		// use first found male english voice
 		if voice == "" && v.Locale == "en-US" && v.Gender == "Male" {
 			voice = v.ShortName
 		}
 	}
 
-	fmt.Println("")
+	fmt.Println()
 
 	filename := "./sample.mp3"
-	text := "edgetts is a golang module that allows you to use Microsoft Edge's online text-to-speech service directly from your golang code"
+	text := "Edge T T S is a golang module that allows you to use Microsoft Edge's online text-to-speech service directly from your golang code"
 	fmt.Printf(
 		"Speak '%s' to audio file '%s' using voice '%s'...\n",
 		text,
@@ -57,22 +50,30 @@ func main() {
 
 	args := edgetts.Args{
 		Voice: voice,
-		// Text:         text,
-		Rate: "+15%",
-		// AudioFile:    filename,
-		// MetadataFile: "./subtitles.json",
+		Rate:  "+15%",
 	}
 
 	tts := edgetts.New(args)
 
-	err = tts.
-		Speak(text).
-		SaveToFile(filename, edgetts.OutputFormatMp3)
+	speaker := tts.Speak(text)
 
-	if err != nil {
-		fmt.Printf("Error trying to convert text to speach:\n%s\n", err.Error())
+	if err := speaker.SaveToFile(context.TODO(), filename, edgetts.OutputFormatMp3); err != nil {
+		fmt.Printf("Error trying to synthesize speech:\n%s\n", err.Error())
 		return
 	}
 
 	fmt.Printf("Success! Listen speech in '%s'\n", filename)
+
+	metadata, err := speaker.GetMetadata()
+	if err != nil {
+		fmt.Printf("Error trying to get metadata of synthesized speech:\n%s\n", err.Error())
+	}
+
+	fmt.Println("")
+	fmt.Println("Metadata:")
+	fmt.Println("[ Offset ms: Word - Duration ms ]")
+
+	for _, word := range metadata {
+		fmt.Printf("%5d: %s - %d\n", word.Offset, word.Text, word.Duration)
+	}
 }

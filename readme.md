@@ -1,6 +1,6 @@
 # edgetts
 
-`edgetts` is a golang module that allows you to use Microsoft Edge's online text-to-speech service directly from your golang code.
+`edgetts` is a golang module that allows you to use Microsoft Edge's online text-to-speech service in your golang projects.
 
 ## Installation
 
@@ -10,30 +10,36 @@ To install it, run the following command:
 
 ## Usage
 
-To transcribe a text you need to import package `github.com/kolonist/edgetts` and then just use `edgetts.Transcribe()` function:
-
 ```go
 package main
 
 import (
+	"context"
 	"github.com/kolonist/edgetts"
 )
 
 func main() {
 	args := edgetts.Args{
-		Text:      "Text I need to transcribe now",
-        Voice:     "en-US-AlloyTurboMultilingualNeural",
-		AudioFile: "./sample.mp3",
+		// set voice to use in speech synthesys
+		Voice: "en-US-AlloyTurboMultilingualNeural",
 	}
 
-    // read text 'args.Text' with voice 'args.Voice' and save it to 'args.AudioFile' file
-	err = edgetts.Transcribe(args)
+	// create EdgeTTS struct with voice and other synthesys parameters
+	tts := edgetts.New(args)
+
+	// create Speaker struct with text to synthesize
+	speaker := tts.Speak("Text I need to speak now")
+
+	// generate sound in mp3 format and save it to the file
+	err := speaker.SaveToFile(context.TODO(), "./sample.mp3", edgetts.OutputFormatMp3)
 }
 ```
 
-
+You can find more complex example in [/examples](https://github.com/kolonist/edgetts/tree/main/examples) folder.
 
 ## Thanks
 
-* https://github.com/rany2/edge-tts
-* https://github.com/surfaceyu/edge-tts-go
+I used the following projects as sources of inspiration:
+
+* https://github.com/rany2/edge-tts (similar library for Python)
+* https://github.com/surfaceyu/edge-tts-go (Python library rewritten in Go but not working now)
