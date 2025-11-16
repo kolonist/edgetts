@@ -18,7 +18,7 @@ type Speaker struct {
 	metadata []SpeechMetadata
 }
 
-// SpeechMetadata contains time of word start and its pronunciation duration
+// SpeechMetadata contains time of word start and its pronunciation duration im milliseconds
 type SpeechMetadata = tts.SpeechMetadata
 
 // OutputFormat represents sound data output format
