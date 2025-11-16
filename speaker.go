@@ -51,7 +51,7 @@ const (
 //
 // Returns:
 //
-//	error if file was not written for some reason
+//	error if generation or data transferring failed
 func (s *Speaker) GetSoundIter(ctx context.Context, format OutputFormat) iter.Seq2[[]byte, error] {
 	return func(yield func([]byte, error) bool) {
 		if err := ctx.Err(); err != nil {
@@ -98,8 +98,8 @@ func (s *Speaker) GetSoundIter(ctx context.Context, format OutputFormat) iter.Se
 //
 // Returns:
 //
-//   - buffer containing sound data of defined format
-//   - error if file was not written for some reason
+//	buffer containing sound data of defined format
+//	error if generation or data transferring failed
 func (s *Speaker) GetSound(ctx context.Context, format OutputFormat) ([]byte, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err
@@ -129,7 +129,7 @@ func (s *Speaker) GetSound(ctx context.Context, format OutputFormat) ([]byte, er
 //
 // Returns:
 //
-//	error if file was not written for some reason
+//	error if file write failed
 func (s *Speaker) SaveToFile(ctx context.Context, filename string, format OutputFormat) error {
 	if err := ctx.Err(); err != nil {
 		return err
@@ -158,8 +158,8 @@ func (s *Speaker) SaveToFile(ctx context.Context, filename string, format Output
 //
 // Returns:
 //
-//   - Slice with SpeechMetadata structs containing timings of each word in text
-//   - Error
+//	slice with SpeechMetadata structs containing timings of each word in text
+//	error if there is no metadata because synthesys has not finished yet
 func (s *Speaker) GetMetadata() ([]SpeechMetadata, error) {
 	if s.ready {
 		return s.metadata, nil
