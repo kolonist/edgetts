@@ -8,7 +8,9 @@
 
 To install it, run the following command:
 
-    $ go install github.com/kolonist/edgetts
+```bash
+go get github.com/kolonist/edgetts@latest
+```
 
 ## Usage
 
