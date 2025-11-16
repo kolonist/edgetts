@@ -1,3 +1,5 @@
+![Logo](./logo.png)
+
 # edgetts
 
 `edgetts` is a golang module that allows you to use Microsoft Edge's online text-to-speech service in your golang projects.
