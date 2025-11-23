@@ -218,5 +218,4 @@ I used the following projects as sources of inspiration:
 ## Author
 
 @license MIT\
-@version 1.0.0\
 @author Alexander Zubakov <developer@xinit.ru>

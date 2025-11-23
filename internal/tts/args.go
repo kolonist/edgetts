@@ -16,14 +16,6 @@ type Args struct {
 	Rate string
 }
 
-// func (args *Args) getText() (string, error) {
-// 	if args.Text == "" {
-// 		return "", fmt.Errorf("text not specified")
-// 	}
-
-// 	return args.Text, nil
-// }
-
 func (args *Args) getVoice() (string, error) {
 	if args.Voice == "" {
 		return "", fmt.Errorf("voice not specified")
